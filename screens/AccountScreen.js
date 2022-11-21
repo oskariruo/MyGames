@@ -1,0 +1,51 @@
+import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { auth } from '../components/firebase-config';
+import { Button, useTheme, Text } from 'react-native-paper';
+
+export default function AccountScreen({navigation}){
+
+  const screenTheme = useTheme();
+
+  const handleSignOut = () => {
+    auth
+    .signOut()
+    .then(() => {
+      navigation.replace("Login")
+    })
+    .catch(error => alert(error.message))
+  }
+
+  return (
+    <View style={[styles.container, {backgroundColor:screenTheme.colors.background}]}>
+
+    <Button
+      style={styles.button}
+      onPress={handleSignOut}
+    >
+    Sign out
+    </Button>
+    </View>
+  )
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+      width: '60%',
+      padding: 1,
+      borderRadius: 10, 
+      alignItems: 'center',
+      marginTop: 10,
+    },
+  buttonText: {
+     color: 'white',
+     fontWeight: '700',
+     fontSize: 16,
+    },
+})
