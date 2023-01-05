@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Alert,} from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Text, useTheme } from 'react-native-paper';
 import { auth, database } from '../components/firebase-config';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 
-export default function SignupScreen({ navigation }) {
+export default function SignupScreen({navigation}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    
+    const theme = useTheme();
 
-    //save user to the DB
     const saveUser = (user) => {
         database().ref("users/").push(
           {'id': user.uid, 'e-mail': user.email}
@@ -26,7 +27,7 @@ export default function SignupScreen({ navigation }) {
             return
         }
         else {
-            createUserWithEmailAndPassword(email, password)
+            createUserWithEmailAndPassword(getAuth(), email, password)
             .then(() => {
                 if (auth().currentUser) {
                     saveUser(auth().currentUser)
@@ -40,17 +41,18 @@ export default function SignupScreen({ navigation }) {
     };
         
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
+            <Text style={{marginTop:200}}>Register as a new user</Text>
             <TextInput
                 style={styles.input}
-                placeholder="E-mail"
+                placeholder='E-mail'
                 onChangeText={(text) => setEmail(text)}
                 value={email}
                 autoCapitalize="none"
             />
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder='Password'
                 onChangeText={(text) => setPassword(text)}
                 value={password}
                 secureTextEntry={true}
@@ -67,15 +69,11 @@ export default function SignupScreen({ navigation }) {
             />
             <View style ={{flexDirection: 'row'}}>
                 <Button
-                    buttonStyle={{...styles.button,...{backgroundColor: 'gray'}}}
-                    onPress={() => navigation.navigate('Sign In')}
-                    title="BACK TO LOG IN" 
-                />
+                    onPress={() => navigation.replace('Login')}
+                >Back to login</Button>
                 <Button
-                    buttonStyle={styles.button}
                     onPress={() => signup()}
-                    title="SIGN UP" 
-                />
+                >Sign up</Button>
             </View>
         </View>
     );
@@ -92,7 +90,6 @@ const styles = StyleSheet.create({
         width: '80%',
         borderRadius: 5,
         overflow: 'hidden',
-        backgroundColor: 'white',
         marginTop: 10,
         marginBottom: 10,
         marginLeft: 30,

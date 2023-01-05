@@ -13,7 +13,6 @@ export default function WishListScreen({navigation}){
 
   const updateList = () => {
     const itemsRef = query(ref(database, 'games/' + auth.currentUser.uid), orderByChild('bought'), equalTo(false));
-    console.log(itemsRef)
     onValue(itemsRef, (snapshot) => {
       if (snapshot.exists()){
       const data = snapshot.val();
@@ -28,7 +27,7 @@ export default function WishListScreen({navigation}){
   const moveToCollection = (index) => {
     let reference = ref(database, 'games/' + auth.currentUser.uid + '/' + keys.splice(index)[0]);
     update(
-        
+        reference, {bought: true}
     )
   }
 
@@ -42,7 +41,7 @@ export default function WishListScreen({navigation}){
       })
     }
   
-useEffect(updateList, []);
+  useEffect(updateList, []);
 
   return (
     <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
@@ -55,7 +54,6 @@ useEffect(updateList, []);
             <Card.Title title={item.name}></Card.Title>
             <Card.Content>
               <Title>Released: {item.released}</Title>
-              <Text>{item.bought}</Text>
             </Card.Content>
             <Card.Cover 
            style={{marginTop:10}}
@@ -69,8 +67,9 @@ useEffect(updateList, []);
         style={styles.button}>
             Delete
         </Button>
+
         <Button
-            color={theme.colors.error}
+            color={theme.colors.primary}
             icon='delete'
         onPress={moveToCollection}
         style={styles.button}>
@@ -92,7 +91,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-      width: '80%',
       padding: 15,
       borderRadius: 10, 
       alignItems: 'center',
@@ -105,5 +103,6 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
       marginBottom: 10,
+      
     }
 })

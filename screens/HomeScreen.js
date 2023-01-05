@@ -3,7 +3,6 @@ import { StyleSheet, TextInput, View, Image, Alert } from 'react-native';
 import {Button, Modal, IconButton, Text, useTheme } from 'react-native-paper';
 import React, {useState} from 'react';
 import {REACT_APP_API_KEY} from '@env'
-import {Picker} from "@react-native-picker/picker";
 import { auth } from '../components/firebase-config';
 import { database } from '../components/firebase-config';
 
@@ -31,32 +30,41 @@ export default function HomeScreen({navigation}){
       .then((response) => response.json())
       .then(data => {
         setSearchResult(data)
-        setPlatform(data.parent_platform.map(platform.name))
-        console.log(plaftom)
         setName(data.name)
         setImage(data.background_image)
         setRelease(data.released)
       })
     }
   
-  const saveGame = () => {
+  const saveCollection = () => {
     setBought(true);
     push(
       ref(database, 'games/' + auth.currentUser.uid),
       { 'name': name, 'image': image, 'released': released, 'bought': bought})
       .then(() => {
-        Alert.alert('Game added!');
+        Alert.alert('Game added to your collection!');
+        
+      })
+  }
+
+  const saveWishlist = () => {
+    setBought(false);
+    push(
+      ref(database, 'games/' + auth.currentUser.uid),
+      { 'name': name, 'image': image, 'released': released, 'bought': bought})
+      .then(() => {
+        Alert.alert('Game added to your wishlist!');
         
       })
   }
 
   return (
     <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
-      <Image 
-      style={{width: 200, height:200, margin: 10}}
-      source={{uri:'https://www.clipartmax.com/png/small/95-953982_gamepad-free-icon-video-games-control-logo.png'}}/>
+
+    <Text>Try searching for example Minecraft or Portal 2</Text>
+
     <TextInput
-            placeholder='Search'
+            placeholder='Search for games'
             value={search}
             onChangeText={text => setSearch(text)}
             style={styles.input}
@@ -66,7 +74,7 @@ export default function HomeScreen({navigation}){
         icon='magnify'
         onPress={doSomething}
         style={styles.button}>
-            Search
+        Search
         </Button>
 
         <Modal
@@ -90,21 +98,19 @@ export default function HomeScreen({navigation}){
 
           <Button
           style={styles.button}
-          onPress={saveGame}>
+          onPress={saveCollection}>
             Add to collection
           </Button>
           <Button
-          
-          onPress={() => console.log(platforms)}>
-            Print
+          style={styles.button}
+          onPress={saveWishlist}>
+            Add to wishlist
           </Button>
-          
         
         </Modal>
     </View>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {

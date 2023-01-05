@@ -5,7 +5,7 @@ import { Button, useTheme, Text } from 'react-native-paper';
 
 export default function AccountScreen({navigation}){
 
-  const screenTheme = useTheme();
+  const theme = useTheme();
 
   const handleSignOut = () => {
     auth
@@ -17,8 +17,8 @@ export default function AccountScreen({navigation}){
   }
 
   return (
-    <View style={[styles.container, {backgroundColor:screenTheme.colors.background}]}>
-
+    <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
+      <Text>Logged in as user: {auth.currentUser.email}</Text>
     <Button
       style={styles.button}
       onPress={handleSignOut}

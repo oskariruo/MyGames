@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { auth } from '../components/firebase-config';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { useTheme } from 'react-native-paper';
 
 export default function LoginScreen({navigation}){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const theme = useTheme();
 
     useEffect(() => {
      const unsub =  auth.onAuthStateChanged(user => {
@@ -42,7 +44,7 @@ export default function LoginScreen({navigation}){
 }
   return (
     <KeyboardAvoidingView
-    style={styles.container}
+    style={[styles.container, {backgroundColor:theme.colors.background}]}
     behavior="padding">
 
       <View style={styles.inputContainer}>
@@ -84,7 +86,6 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:'center',
         alignItems: 'center',
-        backgroundColor: '#333'
     },
     inputContainer: {
         width: '80%',
