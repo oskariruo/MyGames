@@ -20,7 +20,7 @@ export default function HomeScreen({navigation}){
 
   const theme = useTheme();
 
-  const doSomething = () => {
+  const doSearch = () => {
     searchGame();
     setModalVisible(true);
   }
@@ -82,7 +82,7 @@ export default function HomeScreen({navigation}){
 
     <Button
       icon='magnify'
-      onPress={doSomething}
+      onPress={doSearch}
       style={styles.button}>
       Search
     </Button>

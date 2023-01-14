@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { auth } from '../components/firebase-config';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { Button, useTheme, Text } from 'react-native-paper';
 
 export default function AccountScreen({navigation}){
@@ -16,9 +17,19 @@ export default function AccountScreen({navigation}){
     .catch(error => alert(error.message))
   }
 
+  const resetPassword = () => {
+    sendPasswordResetEmail(getAuth, email)
+  }
+
   return (
     <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
       <Text>Logged in as user: {auth.currentUser.email}</Text>
+      <Button
+      style={styles.button}
+      onPress={handleSignOut}
+    >
+    Change password
+    </Button>
     <Button
       style={styles.button}
       onPress={handleSignOut}
