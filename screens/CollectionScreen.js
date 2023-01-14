@@ -1,4 +1,4 @@
-import {Image, FlatList, StyleSheet, Text, View, Alert } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Alert } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {ref, onValue, remove, orderByChild, equalTo, query} from'firebase/database';
 import { auth, database } from '../components/firebase-config';
@@ -44,12 +44,12 @@ export default function CollectionScreen({navigation}){
     const itemsRef = query(ref(database, 'games/' + auth.currentUser.uid), orderByChild('bought'), equalTo(true));
     onValue(itemsRef, (snapshot) => {
       if (snapshot.exists()){
-      const data = snapshot.val();
-      setItems(Object.values(data));
-      setKeys(Object.keys(data));
-    }
-      else{setItems([])
-    }
+        const data = snapshot.val();
+        setItems(Object.values(data));
+        setKeys(Object.keys(data));
+      } 
+      else {setItems([])
+      }
     });
   }
 
@@ -63,39 +63,48 @@ export default function CollectionScreen({navigation}){
       })
     }
   
-useEffect(updateList, []);
-useEffect(userLevel);
+  useEffect(updateList, []);
+  useEffect(userLevel);
 
 
   return (
     <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
-     <Title style={{color:theme.colors.primary}}>Game Collection: {items.length} games</Title>
-     <Text style={{color:theme.colors.error}}>Your rank is: {level}</Text>
-     <ProgressBar progress={progress} color={theme.colors.error} width={200} marginBottom={10}/>
+
+    <Title style={{color:theme.colors.primary}}>Game Collection: {items.length} game(s)</Title>
+
+    <Text style={{color:theme.colors.error}}>Your rank is: {level}</Text>
+    <ProgressBar progress={progress} color={theme.colors.error} width={200} marginBottom={10}/>
+
     <FlatList 
-        style={styles.list}
-        data={items}
-        renderItem={({ item }) =>
-          <Card style={[styles.cardStyle]}>
-            <Card.Title title={item.name}></Card.Title>
-            <Card.Content>
-              <Title>Released: {item.released}</Title>
-              <Text>{item.bought}</Text>
-            </Card.Content>
-            <Card.Cover 
-           style={{marginTop:10}}
-          source={{uri: item.image}}/>
+      style={styles.list}
+      data={items}
+      renderItem={({ item }) =>
+        <Card style={styles.cardStyle}>
+          <Card.Title title={item.name}></Card.Title>
+          <Card.Content>
+            <Text
+              style={{color:theme.colors.primary, fontWeight:"bold", fontSize:15}}>
+                Released: {item.released}
+            </Text>
+            <Text
+              style={{color:theme.colors.primary}}>
+                Platform: {item.platform}
+            </Text>
+          </Card.Content>
+          <Card.Cover 
+            style={{marginTop:10}}
+            source={{uri: item.image}}/>
             
-            <Card.Actions>
+          <Card.Actions>
             <Button
-            color={theme.colors.error}
-            icon='delete'
-        onPress={deleteItem}
-        style={styles.button}>
-            Delete
-        </Button>
-        </Card.Actions>
-            </Card>
+              color={theme.colors.error}
+              icon='delete'
+              onPress={deleteItem}
+              style={styles.button}>
+                Delete
+            </Button>
+          </Card.Actions>
+        </Card>
         }
       />
     </View>
@@ -111,10 +120,10 @@ const styles = StyleSheet.create({
   },
   button: {
       width: '80%',
-      padding: 15,
+      padding: 10,
       borderRadius: 10, 
       alignItems: 'center',
-      marginTop: 10,
+
     },
   buttonText: {
      color: 'white',
@@ -123,5 +132,5 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
       marginBottom: 10,
-    }
+    },
 })

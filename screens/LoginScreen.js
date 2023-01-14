@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { auth } from '../components/firebase-config';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useTheme } from 'react-native-paper';
 
 export default function LoginScreen({navigation}){
@@ -20,14 +20,6 @@ export default function LoginScreen({navigation}){
         return unsub
     }, [])
 
-    const handleSignUp = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log(user.email);
-        })
-        .catch(error => alert(error.message))
-    }
 
     const handleLogIn = () => {
         if (email === '' && password === '') {

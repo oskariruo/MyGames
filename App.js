@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { StyleSheet, Appearance} from 'react-native';
 import { Provider as PaperProvider, useTheme,DarkTheme, DefaultTheme } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons'

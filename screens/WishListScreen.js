@@ -28,7 +28,9 @@ export default function WishListScreen({navigation}){
     let reference = ref(database, 'games/' + auth.currentUser.uid + '/' + keys.splice(index)[0]);
     update(
         reference, {bought: true}
-    )
+    ).then(() => {
+      Alert.alert('Game moved to collection!');
+    })
   }
 
   const deleteItem = (index) => {
@@ -39,44 +41,55 @@ export default function WishListScreen({navigation}){
         Alert.alert('Game deleted!');
         updateList();
       })
-    }
+  }
+
+  const searchStore = 
   
   useEffect(updateList, []);
 
   return (
     <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
-      <Title style={{color:theme.colors.primary}}>WishList Games: {items.length}</Title>
+    
+    <Title style={{color:theme.colors.primary}}>WishList: {items.length} game(s)</Title>
+    
     <FlatList 
-        style={styles.list}
-        data={items}
-        renderItem={({ item }) =>
-          <Card style={[styles.cardStyle]}>
-            <Card.Title title={item.name}></Card.Title>
-            <Card.Content>
-              <Title>Released: {item.released}</Title>
+      style={styles.list}
+      data={items}
+      renderItem={({ item }) =>
+        <Card style={styles.cardStyle}>
+          <Card.Title title={item.name}></Card.Title>
+          <Card.Content>
+            <Text
+              style={{color:theme.colors.primary, fontWeight:"bold", fontSize:15}}>
+                Released: {item.released}
+            </Text>
+            <Text
+              style={{color:theme.colors.primary}}>
+                Platform: {item.platform}
+            </Text>
             </Card.Content>
             <Card.Cover 
-           style={{marginTop:10}}
-          source={{uri:item.image}}/>
+              style={{marginTop:10}}
+              source={{uri:item.image}}/>
             
-            <Card.Actions>
+          <Card.Actions>
             <Button
-            color={theme.colors.error}
-            icon='delete'
-        onPress={deleteItem}
-        style={styles.button}>
-            Delete
-        </Button>
+              color={theme.colors.error}
+              icon='delete'
+              onPress={deleteItem}
+              style={styles.button}>
+                Delete
+            </Button>
 
-        <Button
-            color={theme.colors.primary}
-            icon='delete'
-        onPress={moveToCollection}
-        style={styles.button}>
-            Add to collection
-        </Button>
-        </Card.Actions>
-            </Card>
+            <Button
+              color={theme.colors.primary}
+              icon='delete'
+              onPress={moveToCollection}
+              style={styles.button}>
+                Add to collection
+            </Button>
+          </Card.Actions>
+        </Card>
         }
       />
     </View>
@@ -94,7 +107,6 @@ const styles = StyleSheet.create({
       padding: 15,
       borderRadius: 10, 
       alignItems: 'center',
-      marginTop: 10,
     },
   buttonText: {
      color: 'white',
@@ -102,7 +114,6 @@ const styles = StyleSheet.create({
      fontSize: 16,
     },
     cardStyle: {
-      marginBottom: 10,
-      
-    }
+      marginBottom: 10,  
+    },
 })
