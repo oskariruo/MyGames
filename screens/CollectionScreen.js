@@ -47,8 +47,7 @@ export default function CollectionScreen({navigation}){
         const data = snapshot.val();
         setItems(Object.values(data));
         setKeys(Object.keys(data));
-      } 
-      else {setItems([])
+      } else {setItems([])
       }
     });
   }

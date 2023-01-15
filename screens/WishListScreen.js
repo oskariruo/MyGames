@@ -1,9 +1,9 @@
-import {Linking, FlatList, StyleSheet, Text, View, Alert } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {ref, onValue, remove, orderByChild, equalTo, query, update} from'firebase/database';
+import { Linking, FlatList, StyleSheet, Text, View, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ref, onValue, remove, orderByChild, equalTo, query, update } from'firebase/database';
 import { auth, database } from '../components/firebase-config';
-import { useTheme, Card, Button, Title} from 'react-native-paper';
-import {REACT_APP_API_KEY} from '@env';
+import { useTheme, Card, Button, Title } from 'react-native-paper';
+import { REACT_APP_API_KEY } from '@env';
 
 export default function WishListScreen({navigation}){
 
@@ -17,11 +17,11 @@ export default function WishListScreen({navigation}){
     const itemsRef = query(ref(database, 'games/' + auth.currentUser.uid), orderByChild('bought'), equalTo(false));
     onValue(itemsRef, (snapshot) => {
       if (snapshot.exists()){
-      const data = snapshot.val();
-      setItems(Object.values(data));
-      setKeys(Object.keys(data));
-    } else {setItems([])
-    }
+        const data = snapshot.val();
+        setItems(Object.values(data));
+        setKeys(Object.keys(data));
+      } else {setItems([])
+      }
     });
   }
 
@@ -31,7 +31,6 @@ export default function WishListScreen({navigation}){
       .then((response) => response.json())
       .then(data => {
         setURL(data.results[0].url)
-        console.log(data.results[0].url)
       })
 
       Linking.openURL(url);
@@ -99,7 +98,7 @@ export default function WishListScreen({navigation}){
               icon='plus'
               onPress={moveToCollection}
               style={styles.button}>
-                Add to collection
+                Add
             </Button>
 
             <Button
