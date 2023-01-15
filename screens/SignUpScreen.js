@@ -42,39 +42,45 @@ export default function SignupScreen({navigation}) {
         
     return (
         <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
-            <Text style={{marginTop:200}}>Register as a new user</Text>
-            <TextInput
-                style={styles.input}
-                placeholder='E-mail'
-                onChangeText={(text) => setEmail(text)}
-                value={email}
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder='Password'
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-                secureTextEntry={true}
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder='Confirm Password'
-                secureTextEntry={true}
-                onChangeText={(text) => setConfirmPassword(text)}
-                value={confirmPassword}
-                underlineColorAndroid="transparent"
-                autoCapitalize="none"
-            />
-            <View style ={{flexDirection: 'row'}}>
-                <Button
-                    onPress={() => navigation.replace('Login')}
-                >Back to login</Button>
-                <Button
-                    onPress={() => signup()}
-                >Sign up</Button>
-            </View>
+        
+        <Text style={{marginTop:200}}>Register as a new user</Text>
+            
+        <TextInput
+            style={styles.input}
+            placeholder='E-mail'
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            autoCapitalize="none"
+        />
+        <TextInput
+            style={styles.input}
+            placeholder='Password'
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+            autoCapitalize="none"
+        />
+        <TextInput
+            style={styles.input}
+            placeholder='Confirm Password'
+            secureTextEntry={true}
+            onChangeText={(text) => setConfirmPassword(text)}
+            value={confirmPassword}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+        />
+    
+        <View style ={{flexDirection: 'row'}}>
+        
+        <Button
+            onPress={() => navigation.replace('Login')}>
+                Back to login
+        </Button>
+        <Button
+            onPress={() => signup()}>
+                Sign up
+        </Button>
+        </View>
         </View>
     );
 };

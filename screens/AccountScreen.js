@@ -23,18 +23,21 @@ export default function AccountScreen({navigation}){
 
   return (
     <View style={[styles.container, {backgroundColor:theme.colors.background}]}>
-      <Text>Logged in as user: {auth.currentUser.email}</Text>
-      <Button
+    
+    <Text>Logged in as user: {auth.currentUser.email}</Text>
+    
+    <Button
       style={styles.button}
-      onPress={handleSignOut}
+      onPress={resetPassword}
     >
-    Change password
+      Change password
     </Button>
+    
     <Button
       style={styles.button}
       onPress={handleSignOut}
     >
-    Sign out
+      Sign out
     </Button>
     </View>
   )
@@ -48,15 +51,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-      width: '60%',
-      padding: 1,
-      borderRadius: 10, 
-      alignItems: 'center',
-      marginTop: 10,
-    },
-  buttonText: {
-     color: 'white',
-     fontWeight: '700',
-     fontSize: 16,
+    width: '60%',
+    padding: 1,
+    borderRadius: 10, 
+    alignItems: 'center',
+    marginTop: 10,
     },
 })
