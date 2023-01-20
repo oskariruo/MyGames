@@ -9,6 +9,7 @@ This project ulitizes the following technologies:
 - [React Native Paper](https://reactnativepaper.com/)
 - [Firebase](https://firebase.google.com/?gclid=Cj0KCQiAlKmeBhCkARIsAHy7WVvOsRrewSOooSLAPYjujTiw9p863CdaF9wlPX6a_NF9E7bHfpZfo8IaAo3hEALw_wcB&gclsrc=aw.ds)
 
+<h2>Views</h2>
 <img src="./screenshots/HomeScreen.png" width="300">
 
 Here's the Home screen where the user can search for their favourite games.
